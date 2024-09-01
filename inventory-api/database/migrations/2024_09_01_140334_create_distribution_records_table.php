@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('distribution_records', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('station_id')->constrained()->cascadeOnDelete();
+            $table->integer('product_qty');
+            $table->date('distribution_date');
             $table->timestamps();
         });
     }
