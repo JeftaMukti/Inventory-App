@@ -55,4 +55,14 @@ class User extends Authenticatable
     public function isDistribusi():bool{
         return $this->role === "distribusi";
     }
+
+    public function distributionRecord()
+    {
+        return $this->hasMany(DistributionRecord::class);
+    }
+
+    public function purchaseRecord()
+    {
+        return $this->hasMany(PurchaseRecord::class);
+    }
 }
