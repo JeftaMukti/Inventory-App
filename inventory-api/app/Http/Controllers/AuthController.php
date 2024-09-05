@@ -35,6 +35,27 @@ class AuthController extends Controller
         ];
     }
 
+    public function update(Request $request, User $user){
+        $fields = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|unique:users,email,' . $user->id,
+            'password' => 'required',
+            'role' => 'required|in:admin,purchase,distribusi'
+        ]);
+
+        $user->update([
+            'name' => $fields['name'],
+            'email' => $fields['email'],
+            'password' => isset($fields['password']) ? Hash::make($fields['password']) : $user->password,
+            'role' => $fields['role'],
+        ]);
+
+        return [
+            'user' => $user,
+        ];
+    }
+
+
     public function delete(Request $request, User $user){
 
         $user->delete();
