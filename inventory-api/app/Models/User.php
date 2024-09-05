@@ -47,6 +47,10 @@ class User extends Authenticatable
         ];
     }
 
+    public function isAdmin():bool{
+        return $this->role === "admin";
+    }
+
     public function isPurchase():bool{
         return $this->role === "purchase";
     }

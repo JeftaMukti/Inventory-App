@@ -13,6 +13,15 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+//Admin Role Route
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function (){
+    Route::get('/account', [AuthController::class, 'index']);
+    Route::post('/create-account', [AuthController::class, 'store']);
+    Route::put('/update-account/{user}', [AuthController::class, 'update']);
+    Route::delete('/delete-account/{user}', [AuthController::class, 'delete']);
+});
+//End Admin Role Route
+
 
 //Authentication Route
 Route::post('/register', [AuthController::class,'register']);

@@ -9,12 +9,18 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
+    public function index(){
+        $user = User::all();
+
+        return $user;
+    }
+
+    public function store(Request $request){
         $fields = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|unique:users',
             'password' => 'required|confirmed',
-            'role' => 'required|in:purchase,distribusi'
+            'role' => 'required|in:admin,purchase,distribusi'
         ]);
 
         $user = User::create([
@@ -24,13 +30,20 @@ class AuthController extends Controller
             'role' => $fields['role'],
         ]);
 
-        $token = $user->createToken($user->name);
-
         return [
             'user' => $user,
-            'token' => $token->plainTextToken
         ];
     }
+
+    public function delete(Request $request, User $user){
+
+        $user->delete();
+
+        return [
+            'message' => 'data has been delete',
+        ];
+    }
+
 
     public function login(Request $request){
         $request->validate([
