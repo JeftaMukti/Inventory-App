@@ -33,7 +33,7 @@ class ProductController extends Controller
             'name' => 'required|max:255',
             'discription' => 'required',
             'supplier_id' => 'required|exists:suppliers,id',
-            'stock_qty' => 'required',
+            'stock_qty' => 'nullable',
         ]);
 
         $product = Product::create($fields);
