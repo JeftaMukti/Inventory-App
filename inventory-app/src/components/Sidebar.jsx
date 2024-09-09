@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sidebar } from 'flowbite-react';
-import { HiChartPie, HiShoppingBag, HiTruck, HiArrowSmRight } from 'react-icons/hi'; 
+import { HiChartPie, HiShoppingBag, HiTruck, HiArrowSmRight, HiUserGroup, HiLibrary } from 'react-icons/hi'; 
 
 function SidebarComponent({ role, onLogout }) {
   return (
@@ -18,7 +18,7 @@ function SidebarComponent({ role, onLogout }) {
                 Dashboard
               </Sidebar.Item>
             {role === 'admin' && (
-              <Sidebar.Item href="/admin/users" icon={HiShoppingBag}>
+              <Sidebar.Item href="/admin/users" icon={HiUserGroup}>
                 Manage Users
               </Sidebar.Item>
             )}
@@ -27,9 +27,19 @@ function SidebarComponent({ role, onLogout }) {
                 Purchase Records
               </Sidebar.Item>
             )}
+            {(role === 'purchase') && (
+              <Sidebar.Item href="/purchase/suppliers" icon={HiLibrary}>
+                Manage Suppliers
+              </Sidebar.Item>
+            )}
             {(role === 'distribusi') && (
               <Sidebar.Item href="#" icon={HiTruck}>
                 Distribution Records
+              </Sidebar.Item>
+            )}
+            {(role === 'distribusi') && (
+              <Sidebar.Item href="/distribusi/station" icon={HiShoppingBag }>
+                Manage Station
               </Sidebar.Item>
             )}
           </Sidebar.ItemGroup>
