@@ -15,8 +15,8 @@ Route::get('/user', function (Request $request) {
 
 //Admin Role Route
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function (){
-    Route::get('/account', [AuthController::class, 'index']);
     Route::post('/create-account', [AuthController::class, 'store']);
+    Route::get('/account', [AuthController::class, 'index']);
     Route::put('/update-account/{user}', [AuthController::class, 'update']);
     Route::delete('/delete-account/{user}', [AuthController::class, 'delete']);
 });
@@ -24,7 +24,6 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function (){
 
 
 //Authentication Route
-Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 Route::post('/logout', [AuthController::class,'logout'])->middleware('auth:sanctum');;
 //End Authentication Route

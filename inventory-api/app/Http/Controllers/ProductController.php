@@ -21,7 +21,11 @@ class ProductController extends Controller
         ->select('products.name', 'products.discription', 'products.supplier_id' , 'suppliers.name AS supplier', 'products.stock_qty')
         ->get();
 
-        return $product;
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => $product
+        ]);
     }
 
     /**
@@ -63,10 +67,11 @@ class ProductController extends Controller
 
         $product->update($fields);
 
-        return [
+        return response()->json([
+            'code' => 200,
             'message' => 'product has been created',
             'product' => $product,
-        ];
+        ]);
     }
 
     /**

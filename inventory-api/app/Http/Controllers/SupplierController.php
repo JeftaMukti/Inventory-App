@@ -14,7 +14,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        return Supplier::all();
+        return response()->json(Supplier::all());
     }
 
     /**
@@ -33,7 +33,11 @@ class SupplierController extends Controller
 
         $supplier = Supplier::create($fields);
 
-        return $supplier;
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => $supplier
+        ]);
     }
 
     /**
@@ -60,7 +64,12 @@ class SupplierController extends Controller
 
         $supplier->update($fields);
 
-        return $fields;
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => $fields // or $fields for update
+        ]);
+
     }
 
     /**

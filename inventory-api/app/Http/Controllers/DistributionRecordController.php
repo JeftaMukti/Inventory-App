@@ -23,7 +23,11 @@ class DistributionRecordController extends Controller
         'distribution_records.product_qty', 'stations.name AS station_name', 'distribution_records.distribution_date')
         ->get();
 
-        return $distribution;
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => $distribution
+        ]);
     }
 
     /**

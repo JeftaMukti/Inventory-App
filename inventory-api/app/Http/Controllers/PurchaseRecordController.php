@@ -61,7 +61,7 @@ class PurchaseRecordController extends Controller
             ->increment('stock_qty', $purchaseQty);
 
             DB::commit();
-            return response()->json(['message' => 'purchase Successfully', 200]);
+            return response()->json(['message' => 'purchase Successfully', "respones" => 200]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json(['error' => 'purchase gagal', 500]);
@@ -82,6 +82,7 @@ class PurchaseRecordController extends Controller
         ->where('purchase_records.id',$id)
         ->get();
         return [
+            200,
             'message' => 'data hass been showed',
             'purchase_record' => $show
         ];

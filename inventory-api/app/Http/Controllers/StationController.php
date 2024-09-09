@@ -14,7 +14,7 @@ class StationController extends Controller
      */
     public function index()
     {
-        return Station::all();
+        return response()->json(Station::all());
     }
 
     /**
@@ -30,21 +30,21 @@ class StationController extends Controller
 
         $station = Station::create($fields);
 
-        return $station;
+        return response()->json(['station' => $station], 201); // Return the station wrapped in an object
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(station $station)
+    public function show(Station $station)
     {
-        return $station;
+        return response()->json($station);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, station $station)
+    public function update(Request $request, Station $station)
     {
         $fields = $request->validate([
             'name' => 'required|max:255',
@@ -54,17 +54,15 @@ class StationController extends Controller
 
         $station->update($fields);
 
-        return $fields;
+        return response()->json(['station' => $station]); // Return the updated station wrapped in an object
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(station $station)
+    public function destroy(Station $station)
     {
         $station->delete();
-        return [
-            'message' => 'data has delete',
-        ];
+        return response()->json(['message' => 'Data has been deleted']);
     }
 }
