@@ -216,4 +216,36 @@ export const deleteProduct = async (id) => {
     console.error('Error deleting supplier:', error.response ? error.response.data : error.message);
   }
 }
+
+// Purchase
+export const getPurchase = async () => {
+  try {
+    const response = await api.get('/purchase');
+    console.log('fetched Purchase:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching purchase:', error.response ? error.response.data : error.message);
+    return [error];
+  }
+}
+
+export const createPurchase = async (newPurchase) => {
+  try {
+    const response = await api.post('/purchase', newPurchase);
+    console.log('Create Purchase:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('API error:', error);
+    throw error;
+  }
+}
+
+export const deletePurchase = async (id) => {
+  try {
+    await api.delete(`/purchase/${id}`);
+    console.log('purchase data has been deleted:', id);
+  } catch (error) {
+    console.error('Error deleting supplier:', error.response ? error.response.data : error.message);
+  }
+}
 export default api;

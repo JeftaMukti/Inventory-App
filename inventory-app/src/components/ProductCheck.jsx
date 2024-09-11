@@ -50,6 +50,7 @@ function ProductCheck () {
     
           {/* Main Content */}
           <div className="flex-1 p-4">
+            <h1 className="text-3xl font-bold mb-4">Product Records</h1>
             <div className="bg-white shadow-md rounded-lg p-6">
               <h2 className="text-2xl font-semibold mb-4">Existing Products</h2>
               <table className="w-full border-collapse">

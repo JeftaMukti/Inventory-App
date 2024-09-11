@@ -7,6 +7,7 @@ import StationManagement from './components/StationManagement';
 import SupplierManagement from './components/SupplierManagement';
 import ProductManagement from './components/ProductManagement';
 import ProductCheck from './components/ProductCheck';
+import PurchaseManagement from './components/PurchaseRecord';
 
 function App() {
   console.log("Rendering App component");
@@ -45,6 +46,14 @@ function App() {
             element={
               localStorage.getItem('token') 
                 ? <ProductCheck/> 
+                : <Navigate to="/login" replace />
+            }
+          />
+          <Route 
+            path="/purchase/records" 
+            element={
+              localStorage.getItem('token') 
+                ? <PurchaseManagement/> 
                 : <Navigate to="/login" replace />
             }
           />
