@@ -38,7 +38,7 @@ function SidebarComponent({ role, onLogout }) {
               </Sidebar.Item>
             )}
             {(role === 'distribusi') && (
-              <Sidebar.Item href="#" icon={HiTruck}>
+              <Sidebar.Item href="/distribusi/records" icon={HiTruck}>
                 Distribution Records
               </Sidebar.Item>
             )}

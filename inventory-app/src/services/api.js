@@ -248,4 +248,36 @@ export const deletePurchase = async (id) => {
     console.error('Error deleting supplier:', error.response ? error.response.data : error.message);
   }
 }
+
+// Distribution
+export const getDistribusi = async () => {
+  try {
+    const response = await api.get('/distribution');
+    console.log('fetched Distribution:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching purchase:', error.response ? error.response.data : error.message);
+    return [error];
+  }
+}
+
+export const createDistribusi = async (newDistribusi) => {
+  try {
+    const response = await api.post('/distribution', newDistribusi);
+    console.log('Create Distribution:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('API error:', error);
+    throw error;
+  }
+}
+
+export const deleteDistribusi = async (id) => {
+  try {
+    await api.delete(`/distribution/${id}`);
+    console.log('distribution data has been deleted:', id);
+  } catch (error) {
+    console.error('Error deleting distribution:', error.response ? error.response.data : error.message);
+  }
+}
 export default api;

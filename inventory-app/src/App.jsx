@@ -8,6 +8,7 @@ import SupplierManagement from './components/SupplierManagement';
 import ProductManagement from './components/ProductManagement';
 import ProductCheck from './components/ProductCheck';
 import PurchaseManagement from './components/PurchaseRecord';
+import DistributionRecords from './components/DistributionRecord';
 
 function App() {
   console.log("Rendering App component");
@@ -46,6 +47,14 @@ function App() {
             element={
               localStorage.getItem('token') 
                 ? <ProductCheck/> 
+                : <Navigate to="/login" replace />
+            }
+          />
+          <Route 
+            path="/distribusi/records" 
+            element={
+              localStorage.getItem('token') 
+                ? <DistributionRecords/> 
                 : <Navigate to="/login" replace />
             }
           />
