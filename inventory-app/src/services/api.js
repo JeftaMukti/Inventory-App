@@ -140,13 +140,18 @@ export const getSupplier = async () => {
 export const createSupplier = async (newSupplier) => {
   try {
     const response = await api.post('/supplier', newSupplier);
-    console.log('Full API response:', response); // Log the full response
-    return response.data;  // Ensure the correct part of the response is returned
+    console.log('Full API response:', response);
+    return response.data;
   } catch (error) {
-    console.error('API error:', error);
+    if (error.response && error.response.data) {
+      console.error('Validation error response:', error.response.data.errors);
+    } else {
+      console.error('API error:', error);
+    }
     throw error;
   }
 };
+
 
 
 export const updateSupplier = async (id, supplierData) => {
@@ -168,4 +173,47 @@ export const deleteSupplier = async (id) => {
     console.error('Error deleting supplier:', error.response ? error.response.data : error.message);
   }
 };
+
+//Product 
+export const getProduct = async () => {
+  try {
+    const response = await api.get('/product');
+    console.log('fetched Products:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching products:', error.response ? error.response.data : error.message);
+    return [error];
+  }
+}
+
+export const createProduct = async (newProduct) => {
+  try {
+    const response = await api.post('/product-create', newProduct);
+    console.log('Create Product:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('API error:', error);
+    throw error;
+  }
+}
+
+export const updateProduct = async (id, productdata) => {
+  try {
+    const response = await api.put(`/product-update/${id}`, productdata);
+    console.log('Product Updated:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating supplier:', error.response ? error.response.data : error.message);
+    return null;
+  }
+}
+
+export const deleteProduct = async (id) => {
+  try {
+    await api.delete(`/product-delete/${id}`);
+    console.log('product data has been deleted:', id);
+  } catch (error) {
+    console.error('Error deleting supplier:', error.response ? error.response.data : error.message);
+  }
+}
 export default api;

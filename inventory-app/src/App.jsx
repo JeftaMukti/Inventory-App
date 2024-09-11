@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard';
 import UserManagement from './components/UserManagement';
 import StationManagement from './components/StationManagement';
 import SupplierManagement from './components/SupplierManagement';
+import ProductManagement from './components/ProductManagement';
+import ProductCheck from './components/ProductCheck';
 
 function App() {
   console.log("Rendering App component");
@@ -34,7 +36,23 @@ function App() {
             path="/distribusi/station" 
             element={
               localStorage.getItem('token') 
-                ? <StationManagement /> 
+                ? <StationManagement/> 
+                : <Navigate to="/login" replace />
+            }
+          />
+          <Route 
+            path="/distribusi/product" 
+            element={
+              localStorage.getItem('token') 
+                ? <ProductCheck/> 
+                : <Navigate to="/login" replace />
+            }
+          />
+          <Route 
+            path="/purchase/products" 
+            element={
+              localStorage.getItem('token') 
+                ? <ProductManagement/> 
                 : <Navigate to="/login" replace />
             }
           />

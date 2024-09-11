@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sidebar } from 'flowbite-react';
-import { HiChartPie, HiShoppingBag, HiTruck, HiArrowSmRight, HiUserGroup, HiLibrary } from 'react-icons/hi'; 
+import { HiChartPie, HiShoppingBag, HiTruck, HiArrowSmRight, HiUserGroup, HiOfficeBuilding, HiLibrary, HiCurrencyDollar } from 'react-icons/hi'; 
 
 function SidebarComponent({ role, onLogout }) {
   return (
@@ -23,13 +23,18 @@ function SidebarComponent({ role, onLogout }) {
               </Sidebar.Item>
             )}
             {(role === 'purchase') && (
-              <Sidebar.Item href="#" icon={HiShoppingBag}>
+              <Sidebar.Item href="/purchase/records" icon={HiCurrencyDollar}>
                 Purchase Records
               </Sidebar.Item>
             )}
             {(role === 'purchase') && (
               <Sidebar.Item href="/purchase/suppliers" icon={HiLibrary}>
                 Manage Suppliers
+              </Sidebar.Item>
+            )}
+            {(role === 'purchase') && (
+              <Sidebar.Item href="/purchase/products" icon={HiShoppingBag}>
+                Manage Products
               </Sidebar.Item>
             )}
             {(role === 'distribusi') && (
@@ -40,6 +45,11 @@ function SidebarComponent({ role, onLogout }) {
             {(role === 'distribusi') && (
               <Sidebar.Item href="/distribusi/station" icon={HiShoppingBag }>
                 Manage Station
+              </Sidebar.Item>
+            )}
+            {(role === 'distribusi') && (
+              <Sidebar.Item href="/distribusi/product" icon={HiOfficeBuilding }>
+                Check Product
               </Sidebar.Item>
             )}
           </Sidebar.ItemGroup>
