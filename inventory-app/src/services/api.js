@@ -249,6 +249,17 @@ export const deletePurchase = async (id) => {
   }
 }
 
+export const getPurchaseDetails = async (id) => {
+  try {
+    const response = await api.get(`/purchase/${id}`);
+    console.log('fetched Purchase:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching purchase:', error.response ? error.response.data : error.message);
+    return [error];
+  }
+}
+
 // Distribution
 export const getDistribusi = async () => {
   try {
@@ -278,6 +289,17 @@ export const deleteDistribusi = async (id) => {
     console.log('distribution data has been deleted:', id);
   } catch (error) {
     console.error('Error deleting distribution:', error.response ? error.response.data : error.message);
+  }
+}
+
+export const getDistribusiDetails = async (id) => {
+  try {
+    const response = await api.get(`/distribution/${id}`);
+    console.log('fetched Distribution:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching purchase:', error.response ? error.response.data : error.message);
+    return [error];
   }
 }
 export default api;

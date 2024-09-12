@@ -9,6 +9,8 @@ import ProductManagement from './components/ProductManagement';
 import ProductCheck from './components/ProductCheck';
 import PurchaseManagement from './components/PurchaseRecord';
 import DistributionRecords from './components/DistributionRecord';
+import ShowDistribution from './components/PrintDistribution';
+import ShowPurchase from './components/PrintPurchase';
 
 function App() {
   console.log("Rendering App component");
@@ -51,6 +53,13 @@ function App() {
             }
           />
           <Route 
+            path="/distribusi/records/show/:id" 
+            element={localStorage.getItem('token') 
+              ? <ShowDistribution /> 
+              : <Navigate to="/login" replace />
+            }
+          />
+          <Route 
             path="/distribusi/records" 
             element={
               localStorage.getItem('token') 
@@ -64,6 +73,13 @@ function App() {
               localStorage.getItem('token') 
                 ? <PurchaseManagement/> 
                 : <Navigate to="/login" replace />
+            }
+          />
+          <Route 
+            path="/purchase/records/show/:id" 
+            element={localStorage.getItem('token') 
+              ? <ShowPurchase /> 
+              : <Navigate to="/login" replace />
             }
           />
           <Route 

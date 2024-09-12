@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getPurchase, createPurchase, deletePurchase, getProduct } from "../services/api";
+import { useNavigate } from "react-router-dom";
 import Alert from "./Alert";
 import SidebarComponent from "./Sidebar";
 
 function PurchaseManagement() {
+  const navigate = useNavigate();
   const [purchases, setPurchases] = useState([]);
   const [products, setProducts] = useState([]);
   const [newPurchase, setNewPurchase] = useState({
@@ -97,6 +99,10 @@ function PurchaseManagement() {
     setSelectedProduct(product);
   };
 
+  const handleShowPurchase = (id) => {
+    navigate(`/purchase/records/show/${id}`);
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -145,9 +151,15 @@ function PurchaseManagement() {
                   <td className="p-2 border-b">
                     <button
                       onClick={() => handleDeletePurchase(purchase.purchase_id)}
-                      className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600"
+                      className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 mr-2"
                     >
                       Delete
+                    </button>
+                    <button
+                      onClick={() => handleShowPurchase(purchase.purchase_id)}
+                      className="bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-green-600"
+                    >
+                      View
                     </button>
                   </td>
                 </tr>

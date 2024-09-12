@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getDistribusi, createDistribusi, deleteDistribusi, getProduct, getStation} from "../services/api";
+import { useNavigate } from "react-router-dom";
 import Alert from "./Alert";
 import SidebarComponent from "./Sidebar";
 
@@ -21,7 +22,7 @@ function PurchaseManagement() {
     type: '',
   });
   const [showCreateModal, setShowCreateModal] = useState(false);
-
+  const navigate = useNavigate();
   const userRole = 'distribusi';
   const handleLogout = () => {
     localStorage.removeItem('authToken');
@@ -116,7 +117,10 @@ function PurchaseManagement() {
     const station = stations.find(s => s.id.toString() === stationId);
     console.log('Selected station:', station);
   };
-  
+
+  const handleShowDistribution = (id) => {
+    navigate(`/distribusi/records/show/${id}`);
+  };  
 
   if (loading) {
     return (
@@ -166,9 +170,15 @@ function PurchaseManagement() {
                   <td className="p-2 border-b">
                     <button
                       onClick={() => handleDeleteDistribution(distribution.id)}
-                      className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600"
+                      className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 mr-2"
                     >
                       Delete
+                    </button>
+                    <button
+                      onClick={() => handleShowDistribution(distribution.id)}
+                      className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600"
+                    >
+                      View
                     </button>
                   </td>
                 </tr>
@@ -256,7 +266,7 @@ function PurchaseManagement() {
                   onClick={handleCreatePurchase}
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
                 >
-                  Create Purchase
+                  Create Distribution
                 </button>
                 <button
                   onClick={() => setShowCreateModal(false)}
