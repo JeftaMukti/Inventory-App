@@ -90,10 +90,10 @@ class DistributionRecordController extends Controller
     public function show(DistributionRecord $distributionRecord,$id)
     {
         $distribution = DistributionRecord::join('products', 'products.id', '=', 'distribution_records.product_id')
-        ->join('stations', 'stations.id', '=', 'distribution_records.stations_id')
+        ->join('stations', 'stations.id', '=', 'distribution_records.station_id')
         ->join('users', 'users.id', '=', 'distribution_records.user_id')
         ->select('distribution_records.id', 'users.name AS penanggung_jawab', 'products.name AS product_name',
-        'distribution_records.product_qty', 'stations.name AS station_name', 'distribution_records.distribution_date')
+        'distribution_records.product_qty', 'stations.name AS station_name','stations.location AS station_address', 'stations.manager AS station_manager', 'distribution_records.distribution_date')
         ->where('distribution_records.id',$id)
         ->get();
 

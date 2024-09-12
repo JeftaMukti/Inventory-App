@@ -99,13 +99,13 @@ class PurchaseRecordController extends Controller
         ->join('suppliers', 'suppliers.id', '=', 'purchase_records.supplier_id')
         ->join('users', 'users.id', '=', 'purchase_records.user_id')
         ->select('purchase_records.id AS purchase_id','users.name AS User', 'products.name AS productName', 'suppliers.name As SupplierName',
-        'purchase_records.product_qty', 'purchase_records.purchase_date')
+        'purchase_records.product_qty', 'purchase_records.purchase_date', 'suppliers.email As SupplierEmail', 'suppliers.phone As SupplierPhone', 'suppliers.address As SupplierLocation', 'suppliers.contact_person As SupplierContactPerson')
         ->where('purchase_records.id',$id)
         ->get();
         return [
             'response' => 200,
             'message' => 'data hass been showed',
-            'purchase_record' => $show
+            'data' => $show
         ];
     }
 
