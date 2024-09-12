@@ -23,7 +23,12 @@ class PurchaseRecordController extends Controller
         'purchase_records.product_qty', 'purchase_records.purchase_date')
         ->get();
 
-        return $product;
+        return response()->json([
+            'response' => 200,
+            'success' => true,
+            'message' => 'purchase Records has been show',
+            'data' => $product
+        ]);
     }
 
     /**
@@ -41,13 +46,13 @@ class PurchaseRecordController extends Controller
         $purchaseQty = $fields['product_qty'];
         $purchaseDate = $fields['purchase_date'];
 
-        $userId = Auth::id();//get user ID XD
+        $userId = Auth::id();
 
-        $supplierId = DB::table('products')->where('id',$productId)->value('supplier_id');//get supplier Id dari table products XD
+        $supplierId = DB::table('products')->where('id', $productId)->value('supplier_id'); // Get the supplier ID from the products table
 
         DB::beginTransaction();
         try {
-            DB::table('purchase_records')->insert([
+            $purchaseId = DB::table('purchase_records')->insertGetId([
                 'user_id' => $userId,
                 'product_id' => $productId,
                 'supplier_id' => $supplierId,
@@ -55,19 +60,35 @@ class PurchaseRecordController extends Controller
                 'purchase_date' => $purchaseDate,
             ]);
 
-            //Update QTY dari dari qty product
+            // Update the stock quantity in the products table
             DB::table('products')
-            ->where('id', $productId)
-            ->increment('stock_qty', $purchaseQty);
+                ->where('id', $productId)
+                ->increment('stock_qty', $purchaseQty);
+
+            // Fetch the inserted purchase record
+            $purchaseRecord = DB::table('purchase_records')
+                ->where('id', $purchaseId)
+                ->first();
 
             DB::commit();
-            return response()->json(['message' => 'purchase Successfully', "respones" => 200]);
+
+            // Return a JSON response with purchase details
+            return response()->json([
+                'response' => 200,
+                'message' => 'success',
+                'data' => $purchaseRecord // Return the purchase record details
+            ], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json(['error' => 'purchase gagal', 500]);
-        }
 
+            return response()->json([
+                'response' => 500,
+                'message' => 'purchase failed',
+                'error' => $th->getMessage() // Return the error message for debugging
+            ], 500);
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -82,7 +103,7 @@ class PurchaseRecordController extends Controller
         ->where('purchase_records.id',$id)
         ->get();
         return [
-            200,
+            'response' => 200,
             'message' => 'data hass been showed',
             'purchase_record' => $show
         ];
@@ -101,10 +122,24 @@ class PurchaseRecordController extends Controller
      */
     public function destroy(PurchaseRecord $purchaseRecords, $id)
     {
-        $delete = DB::table('purchase_records')->where('purchase_records.id', $id)
-        ->delete();
+        DB::transaction(function () use ($id) {
+            $purchase = DB::table('purchase_records')
+            ->where('id', $id)
+            ->first();
+
+            if ($purchase) {
+                DB::table('products')
+                ->where('id', $purchase->product_id)
+                ->decrement('stock_qty', $purchase->product_qty);
+
+                DB::table('purchase_records')
+                ->where('id', $id)
+                ->delete();
+            }
+        });
 
         return [
+            'code' => 200,
             'message' => 'purchase Records Has Been Deleted'
         ];
     }

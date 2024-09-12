@@ -51,7 +51,7 @@ class DistributionRecordController extends Controller
 
         DB::beginTransaction();
         try {
-            DB::table('distribution_records')->insert([
+            $distributionId = DB::table('distribution_records')->insert([
                 'user_id' => $userId,
                 'product_id' => $productId,
                 'station_id' => $stationId,
@@ -59,16 +59,28 @@ class DistributionRecordController extends Controller
                 'distribution_date' => $date,
             ]);
 
-            //Update QTY dari dari qty product
             DB::table('products')
             ->where('id', $productId)
             ->decrement('stock_qty',$productQty);
 
+            $distributionRecord = DB::table('distribution_records')
+            ->where('id', $distributionId)
+            ->first();
+
             DB::commit();
-            return response()->json(['message' => 'purchase Successfully', 200]);
+            return response()->json([
+                'response' => 200,
+                'message' => 'success',
+                'data' => $distributionRecord // Return the purchase record details
+            ], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json(['error' => 'purchase gagal', 500]);
+
+            return response()->json([
+                'response' => 500,
+                'message' => 'purchase failed',
+                'error' => $th->getMessage() // Return the error message for debugging
+            ], 500);
         }
     }
 
@@ -85,10 +97,11 @@ class DistributionRecordController extends Controller
         ->where('distribution_records.id',$id)
         ->get();
 
-        return [
+        return response()->json([
+            'code' => 200,
             'message' => 'data hass been showed',
-            'purchase_record' => $distribution
-        ];
+            'data' => $distribution
+        ]);
     }
 
     /**
@@ -104,7 +117,21 @@ class DistributionRecordController extends Controller
      */
     public function destroy(DistributionRecord $distributionRecord, $id)
     {
-        DB::table('distribution_records')->where('distribution_records.id', $id)->delete();
+        DB::transaction(function () use ($id) {
+            $distribution = DB::table('distribution_records')
+            ->where('id', $id)
+            ->first();
+
+            if ($distribution) {
+                DB::table('products')
+                ->where('id', $distribution->product_id)
+                ->increment('stock_qty', $distribution->product_qty);
+
+                DB::table('distribution_records')
+                ->where('id', $id)
+                ->delete();
+            }
+        });
 
         return [
             'message' => 'data hass been deleted',
