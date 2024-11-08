@@ -1,5 +1,3 @@
-Here's a polished and more organized README format that enhances readability and adds some visual structure to your GitHub project:
-
 ---
 
 # Inventory Management System
